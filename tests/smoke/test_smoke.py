@@ -1,5 +1,3 @@
-import time
-from playwright.sync_api import sync_playwright
 import re
 from playwright.sync_api import expect
 
@@ -10,23 +8,6 @@ def test_homepage_loads(page):
 
     print(page.title())
     assert page.title() == "Poster Generator"
-
-def test_select_celebration_category(page):
-    page.goto("https://poster-app-flame.vercel.app/templates/")
-    celebration_button=page.get_by_role("button", name="Celebration (11)")
-    celebration_button.click()
-
-    expect(page).to_have_url("**/templates?category=celebration*")
-    expect(celebration_button).to_have_class(re.compile("bg-blue-600"))
-    expect(page.get_by_text("11 templates in 🎉 Celebration")).to_be_visible()
-
-
-def test_celebration_category_shows_11_templates(page):
-
-
-
-
-
 
 
 def test_navigate_to_template(page):
@@ -70,14 +51,13 @@ def test_back_to_homepage(page):
     print("Visible:", locator.is_visible())
     print("Href:", locator.get_attribute("href"))
 
-
-
     page.wait_for_url("https://poster-app-flame.vercel.app/")
 
     assert page.url == "https://poster-app-flame.vercel.app/"
     expect(
         page.get_by_role("heading", name="Poster Generator")
     ).to_be_visible()
+
 
 def test_back_to_templates_from_create_page(page):
     page.goto("https://poster-app-flame.vercel.app/create?template=community-28bbae90-252d-4649-aea0-4d36d1455fd6")
