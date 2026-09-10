@@ -24,6 +24,13 @@ def test_celebration_category_shows_11_templates(page):
 
     page.goto("https://poster-app-flame.vercel.app/templates/")
 
+
+    all_cards_button = page.get_by_role("button",name="ALL", exact=True)
+    all_cards_button.click()
+
+    expect(all_cards_button).to_be_false()
+
+
     celebration_button = page.get_by_role("button", name="🎉 Celebration(11)", exact=True)
     celebration_button.click()
 
