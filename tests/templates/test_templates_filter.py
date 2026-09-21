@@ -1,4 +1,5 @@
 import re
+
 from playwright.sync_api import expect
 
 
@@ -24,13 +25,6 @@ def test_celebration_category_shows_11_templates(page):
 
     page.goto("https://poster-app-flame.vercel.app/templates/")
 
-
-    all_cards_button = page.get_by_role("button",name="ALL", exact=True)
-    all_cards_button.click()
-
-    expect(all_cards_button).to_be_false()
-
-
     celebration_button = page.get_by_role("button", name="🎉 Celebration(11)", exact=True)
     celebration_button.click()
 
@@ -38,3 +32,17 @@ def test_celebration_category_shows_11_templates(page):
 
     cards = page.locator("button.group")
     expect(cards).to_have_count(11)
+
+
+def test_open_template_after_filtering(page):
+    page.goto("https://poster-app-flame.vercel.app/templates/")
+
+    celebration_button = page.get_by_role("button", name="🎉 Celebration(11)")
+    celebration_button.click()
+    expect(page).to_have_url("https://poster-app-flame.vercel.app/templates?category=celebration")
+    celebration_card = page.get_by_role("button", name="Celebration Tropical")
+    celebration_card.click()
+    expect(page).to_have_url("https://poster-app-flame.vercel.app/create?template=celebration-003")
+
+    expected_text = page.get_by_role("heading", name="Create your poster")
+    expect(expected_text).to_be_visible()
